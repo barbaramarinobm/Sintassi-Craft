@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sintassi Craft - Analisi del Periodo</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts per Alta Leggibilità e Stile Pixel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;800&family=Press+Start+2P&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Tone.js per effetti sonori sintetizzati retro 8-bit -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        pixel: ['"Press Start 2P"', 'monospace'],
+                        dyslexic: ['Lexend', 'sans-serif'],
+                        accessible: ['"Atkinson Hyperlegible"', 'sans-serif'],
+                    },
+                    colors: {
+                        mc: {
+                            dirt: '#5c3d26',
+                            grass: '#4a7c29',
+                            stone: '#606060',
+                            wood: '#855c38',
+                            woodDark: '#4a331f',
+                            diamond: '#29c2ca',
+                            gold: '#f3c734',
+                            emerald: '#37ca58',
+                            redstone: '#e62d20',
+                            lapis: '#1c42b8',
+                            sand: '#d9cb9e',
+                            obsidian: '#1a1829',
+                            panel: '#c6c6c6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Effetto Bordi Pixel Stile Minecraft */
+        .pixel-box {
+            background-color: #c6c6c6;
+            border: 4px solid #000;
+            box-shadow: inset -4px -4px 0px 0px #555, inset 4px 4px 0px 0px #fff;
+        }
+
+        .pixel-box-dark {
+            background-color: #313131;
+            border: 4px solid #000;
+            color: #fff;
+            box-shadow: inset -4px -4px 0px 0px #111, inset 4px 4px 0px 0px #666;
+        }
+
+        .pixel-box-wood {
+            background-color: #855c38;
+            border: 4px solid #281a0e;
+            box-shadow: inset -4px -4px 0px 0px #4d331e, inset 4px 4px 0px 0px #b07e52;
+        }
+
+        .pixel-btn {
+            position: relative;
+            border: 3px solid #000;
+            box-shadow: inset -3px -3px 0px 0px rgba(0,0,0,0.4), inset 3px 3px 0px 0px rgba(255,255,255,0.5);
+            transition: transform 0.05s, box-shadow 0.05s;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .pixel-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: inset 3px 3px 0px 0px rgba(0,0,0,0.4), inset -3px -3px 0px 0px rgba(255,255,255,0.3);
+        }
+
+        /* Variabili per Controllo Dinamico della Leggibilità */
+        :root {
+            --base-font-size: 18px;
+            --base-line-height: 1.7;
+            --base-letter-spacing: 0.03em;
+            --word-spacing: 0.08em;
+        }
+
+        body {
+            font-size: var(--base-font-size);
+            line-height: var(--base-line-height);
+            letter-spacing: var(--base-letter-spacing);
+            word-spacing: var(--word-spacing);
+            background-color: #1a1829;
+            background-image: radial-gradient(#2d2845 2px, transparent 2px);
+            background-size: 24px 24px;
+        }
+
+        /* Modalità Font Personalizzate */
+        .font-dyslexic-mode {
+            font-family: 'Lexend', sans-serif !important;
+        }
+        .font-accessible-mode {
+            font-family: 'Atkinson Hyperlegible', sans-serif !important;
+        }
+        .font-pixel-mode {
+            font-family: 'Press Start 2P', monospace !important;
+        }
+
+        /* Evidenziazione Tipi Proposizione */
+        .clause-principale {
+            background-color: #d1f5f8;
+            border-color: #0b939e;
+            color: #004d54;
+        }
+        .clause-coordinata {
+            background-color: #fff6d1;
+            border-color: #cca010;
+            color: #594400;
+        }
+        .clause-subordinata {
+            background-color: #d8f8e1;
+            border-color: #1ebd44;
+            color: #08521a;
+        }
+
+        /* Tema ad Alto Contrasto */
+        .theme-high-contrast {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+        .theme-high-contrast .pixel-box, 
+        .theme-high-contrast .pixel-box-dark {
+            background-color: #121212 !important;
+            border-color: #ffff00 !important;
+            box-shadow: none !important;
+            color: #ffffff !important;
+        }
+
+        /* Animazioni Didattiche */
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        .floating {
+            animation: floatAnim 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(41, 194, 202, 0.6); }
+            50% { box-shadow: 0 0 22px rgba(41, 194, 202, 1); }
+        }
+        .glow-active {
+            animation: pulseGlow 1.8s infinite;
+        }
+    </style>
+</head>
+<body class="font-dyslexic-mode text-gray-900 min-h-screen flex flex-col selection:bg-mc-diamond selection:text-black">
+
+    <!-- INTESTAZIONE SUPERIORE & BARRA DI STRUMENTI -->
+    <header class="bg-mc-woodDark text-white border-b-4 border-black p-3 sm:p-4 sticky top-0 z-40 shadow-lg">
+        <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-3">
+            
+            <!-- Titolo e Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-mc-grass border-2 border-black flex items-center justify-center text-xl shadow-inner font-pixel text-yellow-300">
+                    ⛏️
+                </div>
+                <div>
+                    <h1 class="font-pixel text-xs sm:text-sm text-yellow-300 tracking-wider">SINTASSI CRAFT</h1>
+                    <p class="text-xs text-stone-300">L'Avventura dell'Analisi del Periodo</p>
+                </div>
+            </div>
+
+            <!-- Barra Esperienza (Punti XP e Livello) -->
+            <div class="flex items-center gap-4 bg-black/40 px-3 py-1.5 rounded border border-stone-600">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">⭐</span>
+                    <div>
+                        <div class="text-xs text-stone-400 font-pixel">LIVELLO <span id="level-num" class="text-yellow-400">1</span></div>
+                        <div class="w-24 sm:w-32 bg-gray-700 h-3 rounded-full overflow-hidden border border-gray-900">
+                            <div id="xp-bar" class="bg-mc-emerald h-full w-0 transition-all duration-500"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-xs font-bold bg-mc-diamond text-black px-2 py-1 rounded border border-black font-pixel shadow" id="xp-text">
+                    0 XP
+                </div>
+            </div>
+
+            <!-- Pulsanti Accessibilità e Sintesi Vocale -->
+            <div class="flex items-center space-x-2">
+                <button id="btn-tts-toggle" onclick="toggleSpeechAssist()" title="Assistente Vocale" class="pixel-btn bg-mc-gold text-black p-2 rounded text-sm font-bold flex items-center gap-1">
+                    <span id="tts-icon">🔊</span>
+                    <span class="hidden sm:inline text-xs font-pixel">VOCE</span>
+                </button>
+                <button onclick="toggleAudioMute()" id="btn-sound-toggle" title="Suoni di Gioco" class="pixel-btn bg-stone-600 text-white p-2 rounded text-sm font-bold">
+                    <span id="sound-icon">🎵</span>
+                </button>
+                <button onclick="openAccessibilityModal()" class="pixel-btn bg-mc-diamond text-black p-2 rounded text-sm font-bold flex items-center gap-1">
+                    <span>⚙️</span>
+                    <span class="hidden sm:inline text-xs font-pixel">LEGGIBILITÀ</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENITORE PRINCIPALE DI GIOCO -->
+    <main class="flex-grow max-w-5xl w-full mx-auto p-3 sm:p-6 space-y-6">
+
+        <!-- BENVERNUTO E SELEZIONE MODALITÀ -->
+        <section id="biome-select-screen" class="space-y-6">
+            <div class="pixel-box-wood p-6 text-white text-center space-y-3 rounded-lg">
+                <h2 class="font-pixel text-base sm:text-xl text-yellow-300">BENVENUTO, MAESTRO COSTRUTTORE!</h2>
+                <p class="max-w-2xl mx-auto text-stone-200">
+                    Esplora il mondo di Minecraft attraverso la grammatica italiana. Estrai le proposizioni, ricomponi le frasi spezzate dall'inciso e riconosci i legami per sbloccare rari blocchi di diamante!
+                </p>
+                <div class="pt-2 flex justify-center gap-3">
+                    <button onclick="speakText('Benvenuto in Sintassi Craft. Scegli una modalità per iniziare la tua avventura di analisi del periodo!')" class="bg-black/40 hover:bg-black/60 text-yellow-300 px-3 py-1 rounded text-sm flex items-center gap-2 border border-yellow-500">
+                        📢 Ascolta Istruzioni
+                    </button>
+                </div>
+            </div>
+
+            <!-- SCHEDE DELLE MODALITÀ -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Modalità 1: Miniera -->
+                <div class="pixel-box p-5 flex flex-col justify-between hover:border-mc-emerald transition-all transform hover:-translate-y-1 bg-gradient-to-b from-stone-100 to-stone-300">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-3xl">⛏️</span>
+                            <span class="bg-mc-grass text-white text-xs font-pixel px-2 py-1 rounded">FACILE</span>
+                        </div>
+                        <h3 class="font-pixel text-sm text-stone-900 mb-2">1. MINIERA FRASI</h3>
+                        <p class="text-sm text-stone-700 leading-relaxed mb-4">
+                            Separa il periodo nelle sue singole proposizioni usando il piccone della punteggiatura e dei verbi!
+                        </p>
+                    </div>
+                    <button onclick="startMode('mining')" class="pixel-btn bg-mc-grass text-white font-pixel text-xs py-3 w-full rounded hover:brightness-110">
+                        ESPLORA MINIERA
+                    </button>
+                </div>
+
+                <!-- Modalità 2: Banco da Crafting -->
+                <div class="pixel-box p-5 flex flex-col justify-between hover:border-mc-gold transition-all transform hover:-translate-y-1 bg-gradient-to-b from-stone-100 to-stone-300">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-3xl">🛠️</span>
+                            <span class="bg-mc-gold text-black text-xs font-pixel px-2 py-1 rounded">MEDIO</span>
+                        </div>
+                        <h3 class="font-pixel text-sm text-stone-900 mb-2">2. CRAFTING PERIODI</h3>
+                        <p class="text-sm text-stone-700 leading-relaxed mb-4">
+                            Classifica ogni blocco: Principale 💎, Coordinata 🪙 o Subordinata 🟢 (ricollegando anche i soggetti separati dal predicato)!
+                        </p>
+                    </div>
+                    <button onclick="startMode('crafting')" class="pixel-btn bg-mc-gold text-black font-pixel text-xs py-3 w-full rounded hover:brightness-110">
+                        APRI BANCO
+                    </button>
+                </div>
+
+                <!-- Modalità 3: Fortezza Sintattica -->
+                <div class="pixel-box p-5 flex flex-col justify-between hover:border-mc-diamond transition-all transform hover:-translate-y-1 bg-gradient-to-b from-stone-100 to-stone-300">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-3xl">🏰</span>
+                            <span class="bg-mc-diamond text-black text-xs font-pixel px-2 py-1 rounded">AVANZATO</span>
+                        </div>
+                        <h3 class="font-pixel text-sm text-stone-900 mb-2">3. FORTEZZA COMPLETA</h3>
+                        <p class="text-sm text-stone-700 leading-relaxed mb-4">
+                            Identifica gradi, forme (esplicita/implicita) e funzioni (causale, temporale, finale, relativa...).
+                        </p>
+                    </div>
+                    <button onclick="startMode('fortress')" class="pixel-btn bg-mc-diamond text-black font-pixel text-xs py-3 w-full rounded hover:brightness-110">
+                        ENTRA NELLA FORTEZZA
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- MODALITÀ CREATIVA (SANDBOX) -->
+            <div class="pixel-box-dark p-5 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="space-y-1 text-center sm:text-left">
+                    <h3 class="font-pixel text-sm text-yellow-400">🎨 MODALITÀ CREATIVA (SANDBOX)</h3>
+                    <p class="text-xs text-stone-300">Inserisci una tua frase qualsiasi da analizzare insieme passo per passo.</p>
+                </div>
+                <button onclick="startMode('sandbox')" class="pixel-btn bg-mc-lapis text-white font-pixel text-xs px-5 py-3 rounded whitespace-nowrap hover:brightness-110">
+                    CREA LA TUA FRASE
+                </button>
+            </div>
+        </section>
+
+        <!-- AREA DI GIOCO ATTIVA -->
+        <section id="game-workspace" class="hidden space-y-6">
+            
+            <!-- Barra dei controlli dell'esercizio -->
+            <div class="flex justify-between items-center bg-black/50 p-3 rounded-lg border border-stone-700 flex-wrap gap-2">
+                <button onclick="returnToMenu()" class="pixel-btn bg-stone-600 text-white text-xs font-pixel px-3 py-2 rounded flex items-center gap-2">
+                    ⬅️ MENU
+                </button>
+                <div class="flex items-center gap-2">
+                    <span id="current-mode-badge" class="font-pixel text-xs text-yellow-300 px-3 py-1 bg-stone-800 rounded border border-yellow-600">
+                        MINIERA
+                    </span>
+                    <span id="question-tracker" class="font-pixel text-xs text-white">
+                        Frase 1/8
+                    </span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="getRandomSentence()" class="pixel-btn bg-mc-lapis text-white text-xs font-pixel px-3 py-2 rounded flex items-center gap-1 hover:brightness-110" title="Estrai un'altra frase casuale in tema Minecraft">
+                        🎲 NUOVA FRASE
+                    </button>
+                    <button onclick="readCurrentSentence()" class="pixel-btn bg-mc-gold text-black text-xs font-pixel px-3 py-2 rounded flex items-center gap-1">
+                        🗣️ LEGGIMI
+                    </button>
+                </div>
+            </div>
+
+            <!-- AIUTANTE VILLAGER -->
+            <div id="villager-hint-box" class="pixel-box bg-stone-200 p-4 flex items-start gap-4 rounded-lg border-l-8 border-mc-diamond">
+                <div class="text-4xl shrink-0 floating">👨‍🌾</div>
+                <div class="space-y-1 flex-grow">
+                    <div class="flex justify-between items-center">
+                        <span class="font-pixel text-xs text-stone-800">IL VILLAGER DELLA GRAMMATICA SUGGERISCE:</span>
+                        <button onclick="speakText(document.getElementById('villager-hint-text').innerText)" class="text-xs bg-stone-300 hover:bg-stone-400 p-1 rounded" title="Ascolta Suggerimento">🔊</button>
+                    </div>
+                    <p id="villager-hint-text" class="text-sm text-stone-900 font-medium">
+                        Cerca i verbi nella frase! Ogni verbo è il cuore di una proposizione.
+                    </p>
+                </div>
+            </div>
+
+            <!-- SCHEDA DELLA FRASE E ZONA INTERATTIVA -->
+            <div class="pixel-box p-6 space-y-6 bg-stone-100 rounded-lg">
+                
+                <!-- Visualizzazione Frase -->
+                <div class="space-y-2">
+                    <div class="text-xs font-pixel text-stone-500 uppercase tracking-widest">PERIODO DA ANALIZZARE</div>
+                    <div id="sentence-display-area" class="p-4 bg-white border-2 border-stone-800 rounded-lg text-lg font-medium leading-relaxed shadow-inner">
+                        <!-- Frase iniettata dinamicamente via JS -->
+                    </div>
+                </div>
+
+                <!-- ZONA DI INTERAZIONE DINAMICA -->
+                <div id="interaction-zone" class="space-y-6">
+                    <!-- Elementi interattivi iniettati da JS -->
+                </div>
+
+                <!-- MESSAGGIO DI FEEDBACK -->
+                <div id="feedback-box" class="hidden p-4 rounded-lg font-medium text-sm flex items-center gap-3 border-2">
+                    <span id="feedback-icon" class="text-2xl"></span>
+                    <div id="feedback-text" class="flex-grow"></div>
+                </div>
+
+                <!-- PULSANTI DI AZIONE -->
+                <div class="flex flex-wrap justify-between items-center gap-4 pt-4 border-t-2 border-stone-300">
+                    <button id="btn-give-hint" onclick="provideHint()" class="pixel-btn bg-mc-sand text-black font-pixel text-xs px-4 py-3 rounded">
+                        💡 CHIEDI UN AIUTO
+                    </button>
+                    <button id="btn-check-action" onclick="checkCurrentStep()" class="pixel-btn bg-mc-emerald text-white font-pixel text-xs px-6 py-3 rounded text-sm hover:brightness-110">
+                        VERIFICA CRAFTING ✔️
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- MODALE IMPOSTAZIONI LEGGIBILITÀ -->
+    <div id="accessibility-modal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="pixel-box bg-stone-200 max-w-xl w-full p-6 rounded-lg space-y-6 border-4 border-stone-900 max-h-[90vh] overflow-y-auto">
+            
+            <div class="flex justify-between items-center border-b-2 border-stone-400 pb-3">
+                <h3 class="font-pixel text-sm sm:text-base text-stone-900 flex items-center gap-2">
+                    <span>⚙️</span> OPZIONI DI LEGGIBILITÀ E COMPORTAMENTO
+                </h3>
+                <button onclick="closeAccessibilityModal()" class="text-xl font-bold p-1 hover:bg-stone-300 rounded">❌</button>
+            </div>
+
+            <div class="space-y-5 text-sm">
+                
+                <!-- Scelta del Font -->
+                <div class="space-y-2">
+                    <label class="font-bold text-stone-800 block">Stile del testo / carattere:</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <button onclick="changeFontFamily('dyslexic')" class="pixel-btn bg-white p-3 rounded text-left border hover:bg-yellow-50 font-dyslexic text-sm">
+                            <div class="font-bold">Alta Leggibilità</div>
+                            <div class="text-xs text-stone-500">Lexend (Default)</div>
+                        </button>
+                        <button onclick="changeFontFamily('accessible')" class="pixel-btn bg-white p-3 rounded text-left border hover:bg-yellow-50 font-accessible text-sm">
+                            <div class="font-bold">Chiaro Standard</div>
+                            <div class="text-xs text-stone-500">Atkinson</div>
+                        </button>
+                        <button onclick="changeFontFamily('pixel')" class="pixel-btn bg-white p-3 rounded text-left border hover:bg-yellow-50 font-pixel text-xs">
+                            <div class="font-bold">Minecraft Pixel</div>
+                            <div class="text-xs text-stone-500">Retro Style</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dimensione del Testo -->
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <label class="font-bold text-stone-800">Dimensione Testo:</label>
+                        <span id="font-size-val" class="font-mono font-bold">18px</span>
+                    </div>
+                    <input type="range" min="16" max="28" value="18" id="slider-font-size" oninput="updateFontSize(this.value)" class="w-full h-3 bg-stone-400 rounded-lg appearance-none cursor-pointer">
+                </div>
+
+                <!-- Spaziatura e Interlinea -->
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <label class="font-bold text-stone-800">Spaziatura e Interlinea:</label>
+                        <span id="line-height-val" class="font-mono font-bold">Ampia</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="setSpacing('normal')" class="pixel-btn bg-white px-3 py-2 rounded text-xs">Normale</button>
+                        <button onclick="setSpacing('wide')" class="pixel-btn bg-mc-gold px-3 py-2 rounded text-xs font-bold">Ampia (Consigliata)</button>
+                        <button onclick="setSpacing('extra')" class="pixel-btn bg-white px-3 py-2 rounded text-xs">Molto Spaziata</button>
+                    </div>
+                </div>
+
+                <!-- Velocità Assistente Vocale -->
+                <div class="space-y-2">
+                    <label class="font-bold text-stone-800 block">Velocità Lettura Vocale:</label>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs">Lenta</span>
+                        <input type="range" min="0.6" max="1.2" step="0.1" value="0.85" id="slider-tts-rate" onchange="updateTTSRate(this.value)" class="w-full h-3 bg-stone-400 rounded-lg appearance-none cursor-pointer">
+                        <span class="text-xs">Veloce</span>
+                    </div>
+                </div>
+
+                <!-- Contrasto Visivo -->
+                <div class="space-y-2">
+                    <label class="font-bold text-stone-800 block">Contrasto Visivo:</label>
+                    <div class="flex gap-3">
+                        <button onclick="setTheme('default')" class="pixel-btn bg-stone-300 text-stone-900 px-4 py-2 rounded text-xs font-bold">Standard Minecraft</button>
+                        <button onclick="setTheme('high-contrast')" class="pixel-btn bg-black text-yellow-300 px-4 py-2 rounded text-xs font-bold">Alto Contrasto</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pt-2 text-right">
+                <button onclick="closeAccessibilityModal()" class="pixel-btn bg-mc-emerald text-white font-pixel text-xs px-6 py-3 rounded">
+                    CONFERMA E GIOCA
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- NOTIFICA OBIETTIVO SBLOCCATO / LEVEL UP -->
+    <div id="achievement-popup" class="fixed bottom-6 right-6 pixel-box-dark bg-mc-woodDark text-white p-4 rounded-lg shadow-2xl flex items-center gap-4 transform translate-y-32 transition-all duration-500 z-50 border-2 border-yellow-400 max-w-sm">
+        <div class="text-3xl bg-black/50 p-2 rounded border border-yellow-500" id="ach-icon">🏆</div>
+        <div>
+            <div class="text-xs font-pixel text-yellow-400 uppercase tracking-wide" id="ach-title">OBIETTIVO SBLOCCATO!</div>
+            <div class="text-sm font-medium text-stone-100" id="ach-desc">Mastro delle Principali</div>
+        </div>
+    </div>
+
+    <!-- PIÈ DI PAGINA -->
+    <footer class="bg-black text-stone-400 text-center text-xs py-4 border-t-2 border-stone-800 space-y-1">
+        <div>⛏️ Sintassi Craft - Analisi del Periodo Didattica Interattiva</div>
+        <div class="text-stone-500">Progettato per la Scuola Secondaria di Primo Grado</div>
+    </footer>
+
+    <!-- LOGICA E JAVASCRIPT APPLICATIVO -->
+    <script>
+        /* -------------------------------------------------------------------------
+           1. DATABASE FRASI: 100% Tema Minecraft con Proposizioni Spezzate (Incisi)
+           ------------------------------------------------------------------------- */
+        const SENTENCE_DATABASE = [
+            {
+                id: 1,
+                fullText: "Steve, esplorando la caverna buia, ha trovato un prezioso filone di diamante.",
+                verbs: ["esplorando", "ha trovato"],
+                hasSplit: true,
+                clauses: [
+                    {
+                        text: "Steve",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Soggetto spezzato)",
+                        part: 1,
+                        totalParts: 2,
+                        linkId: "p_steve_1",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Soggetto staccato"
+                    },
+                    {
+                        text: "esplorando la caverna buia",
+                        type: "subordinata",
+                        typeName: "Subordinata Temporale / Modale",
+                        part: 1,
+                        totalParts: 1,
+                        linkId: "sub_1",
+                        grade: "1° grado",
+                        form: "implicita",
+                        kind: "temporale",
+                        connector: "Verbo al gerundio ('esplorando')"
+                    },
+                    {
+                        text: "ha trovato un prezioso filone di diamante",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Predicato spezzato)",
+                        part: 2,
+                        totalParts: 2,
+                        linkId: "p_steve_1",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Ricollegata al soggetto 'Steve'"
+                    }
+                ],
+                hintVerb: "I due verbi sono 'esplorando' (gerundio) e 'ha trovato' (indicativo).",
+                hintStructure: "🔗 'Steve' e 'ha trovato un prezioso filone di diamante' formano l'unica Proposizione Principale spezzata dall'inciso!"
+            },
+            {
+                id: 2,
+                fullText: "Alex, quando cala la notte, accende la torcia ed impugna la spada di ferro.",
+                verbs: ["cala", "accende", "impugna"],
+                hasSplit: true,
+                clauses: [
+                    {
+                        text: "Alex",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 1)",
+                        part: 1,
+                        totalParts: 2,
+                        linkId: "p_alex_1",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Soggetto staccato"
+                    },
+                    {
+                        text: "quando cala la notte",
+                        type: "subordinata",
+                        typeName: "Subordinata Temporale",
+                        part: 1,
+                        totalParts: 1,
+                        linkId: "sub_2",
+                        grade: "1° grado",
+                        form: "esplicita",
+                        kind: "temporale",
+                        connector: "quando"
+                    },
+                    {
+                        text: "accende la torcia",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 2)",
+                        part: 2,
+                        totalParts: 2,
+                        linkId: "p_alex_1",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Ricollegata ad 'Alex'"
+                    },
+                    {
+                        text: "ed impugna la spada di ferro",
+                        type: "coordinata",
+                        typeName: "Coordinata alla Principale",
+                        part: 1,
+                        totalParts: 1,
+                        linkId: "coord_1",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "copulativa",
+                        connector: "ed"
+                    }
+                ],
+                hintVerb: "I tre verbi sono 'cala', 'accende' e 'impugna'.",
+                hintStructure: "'Alex ... accende la torcia' è la principale spezzata dalla temporale 'quando cala la notte'."
+            },
+            {
+                id: 3,
+                fullText: "Il Villager, dopo aver scambiato gli smeraldi, rientra nella casa ed accende la fornace.",
+                verbs: ["aver scambiato", "rientra", "accende"],
+                hasSplit: true,
+                clauses: [
+                    {
+                        text: "Il Villager",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 1)",
+                        part: 1,
+                        totalParts: 2,
+                        linkId: "p_villager",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Soggetto staccato"
+                    },
+                    {
+                        text: "dopo aver scambiato gli smeraldi",
+                        type: "subordinata",
+                        typeName: "Subordinata Temporale",
+                        part: 1,
+                        totalParts: 1,
+                        linkId: "sub_3",
+                        grade: "1° grado",
+                        form: "implicita",
+                        kind: "temporale",
+                        connector: "dopo + infinito passato"
+                    },
+                    {
+                        text: "rientra nella casa",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 2)",
+                        part: 2,
+                        totalParts: 2,
+                        linkId: "p_villager",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Ricollegata al soggetto 'Il Villager'"
+                    },
+                    {
+                        text: "ed accende la fornace",
+                        type: "coordinata",
+                        typeName: "Coordinata alla Principale",
+                        part: 1,
+                        totalParts: 1,
+                        linkId: "coord_2",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "copulativa",
+                        connector: "ed"
+                    }
+                ],
+                hintVerb: "I verbi sono 'aver scambiato', 'rientra' e 'accende'.",
+                hintStructure: "'Il Villager ... rientra nella casa' si ricollega per formare la frase principale intera."
+            },
+            {
+                id: 4,
+                fullText: "L'esploratore, che ha addomesticato un lupo, attraversa la foresta di betulle.",
+                verbs: ["ha addomesticato", "attraversa"],
+                hasSplit: true,
+                clauses: [
+                    {
+                        text: "L'esploratore",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 1)",
+                        part: 1,
+                        totalParts: 2,
+                        linkId: "p_esploratore",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Soggetto staccato"
+                    },
+                    {
+                        text: "che ha addomesticato un lupo",
+                        type: "subordinata",
+                        typeName: "Subordinata Relativa",
+                        part: 1,
+                        totalParts: 1,
+                        linkId: "sub_rel",
+                        grade: "1° grado",
+                        form: "esplicita",
+                        kind: "relativa",
+                        connector: "che (pronome relativo)"
+                    },
+                    {
+                        text: "attraversa la foresta di betulle",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 2)",
+                        part: 2,
+                        totalParts: 2,
+                        linkId: "p_esploratore",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Ricollegata a 'L'esploratore'"
+                    }
+                ],
+                hintVerb: "I verbi sono 'ha addomesticato' e 'attraversa'.",
+                hintStructure: "'che ha addomesticato un lupo' è una relativa inserita tra il soggetto e il predicato della principale."
+            },
+            {
+                id: 5,
+                fullText: "Il Creeper, spaventato dai gatti del villaggio, scappa verso la montagna.",
+                verbs: ["spaventato", "scappa"],
+                hasSplit: true,
+                clauses: [
+                    {
+                        text: "Il Creeper",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 1)",
+                        part: 1,
+                        totalParts: 2,
+                        linkId: "p_creeper",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Soggetto staccato"
+                    },
+                    {
+                        text: "spaventato dai gatti del villaggio",
+                        type: "subordinata",
+                        typeName: "Subordinata Causale",
+                        part: 1,
+                        totalParts: 1,
+                        linkId: "sub_causale",
+                        grade: "1° grado",
+                        form: "implicita",
+                        kind: "causale",
+                        connector: "Participio passato ('spaventato')"
+                    },
+                    {
+                        text: "scappa verso la montagna",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 2)",
+                        part: 2,
+                        totalParts: 2,
+                        linkId: "p_creeper",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Ricollegata al soggetto 'Il Creeper'"
+                    }
+                ],
+                hintVerb: "I verbi sono 'spaventato' (participio) e 'scappa' (indicativo).",
+                hintStructure: "Ricollega 'Il Creeper' a 'scappa verso la montagna' per ottenere la proposizione principale intera!"
+            },
+            {
+                id: 6,
+                fullText: "Steve, per sconfiggere i mob ostili, ha fabbricato un'armatura di diamante.",
+                verbs: ["sconfiggere", "ha fabbricato"],
+                hasSplit: true,
+                clauses: [
+                    {
+                        text: "Steve",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 1)",
+                        part: 1,
+                        totalParts: 2,
+                        linkId: "p_steve_armatura",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Soggetto staccato"
+                    },
+                    {
+                        text: "per sconfiggere i mob ostili",
+                        type: "subordinata",
+                        typeName: "Subordinata Finale",
+                        part: 1,
+                        totalParts: 1,
+                        linkId: "sub_finale",
+                        grade: "1° grado",
+                        form: "implicita",
+                        kind: "finale",
+                        connector: "per + infinito"
+                    },
+                    {
+                        text: "ha fabbricato un'armatura di diamante",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 2)",
+                        part: 2,
+                        totalParts: 2,
+                        linkId: "p_steve_armatura",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Ricollegata al soggetto 'Steve'"
+                    }
+                ],
+                hintVerb: "I verbi sono 'sconfiggere' (infinito) e 'ha fabbricato' (indicativo).",
+                hintStructure: "'per sconfiggere i mob ostili' è la subordinata finale inserita nell'inciso."
+            },
+            {
+                id: 7,
+                fullText: "I costruttori, mentre piazzano i mattoni di pietra, pianificano la torre di guardia.",
+                verbs: ["piazzano", "pianificano"],
+                hasSplit: true,
+                clauses: [
+                    {
+                        text: "I costruttori",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 1)",
+                        part: 1,
+                        totalParts: 2,
+                        linkId: "p_costruttori",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Soggetto staccato"
+                    },
+                    {
+                        text: "mentre piazzano i mattoni di pietra",
+                        type: "subordinata",
+                        typeName: "Subordinata Temporale",
+                        part: 1,
+                        totalParts: 1,
+                        linkId: "sub_temp_cost",
+                        grade: "1° grado",
+                        form: "esplicita",
+                        kind: "temporale",
+                        connector: "mentre"
+                    },
+                    {
+                        text: "pianificano la torre di guardia",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 2)",
+                        part: 2,
+                        totalParts: 2,
+                        linkId: "p_costruttori",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Ricollegata a 'I costruttori'"
+                    }
+                ],
+                hintVerb: "I verbi sono 'piazzano' e 'pianificano'.",
+                hintStructure: "'I costruttori ... pianificano la torre di guardia' formano la proposizione principale."
+            },
+            {
+                id: 8,
+                fullText: "Un drago dell'End, volando sopra le torri di ossidiana, ruggisce con forza.",
+                verbs: ["volando", "ruggisce"],
+                hasSplit: true,
+                clauses: [
+                    {
+                        text: "Un drago dell'End",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 1)",
+                        part: 1,
+                        totalParts: 2,
+                        linkId: "p_drago",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Soggetto staccato"
+                    },
+                    {
+                        text: "volando sopra le torri di ossidiana",
+                        type: "subordinata",
+                        typeName: "Subordinata Modale / Temporale",
+                        part: 1,
+                        totalParts: 1,
+                        linkId: "sub_modale",
+                        grade: "1° grado",
+                        form: "implicita",
+                        kind: "temporale",
+                        connector: "volando (gerundio)"
+                    },
+                    {
+                        text: "ruggisce con forza",
+                        type: "principale",
+                        typeName: "Proposizione Principale (Parte 2)",
+                        part: 2,
+                        totalParts: 2,
+                        linkId: "p_drago",
+                        grade: "0",
+                        form: "esplicita",
+                        kind: "indipendente",
+                        connector: "Ricollegata al soggetto 'Un drago dell'End'"
+                    }
+                ],
+                hintVerb: "I verbi sono 'volando' (gerundio) e 'ruggisce'.",
+                hintStructure: "'volando sopra le torri di ossidiana' è una subordinata implicita al gerundio staccata dalle virgole."
+            }
+        ];
+
+        /* Estrazione casuale di una nuova frase Minecraft */
+        function getRandomSentence() {
+            playSound('click');
+            let nextIndex;
+            do {
+                nextIndex = Math.floor(Math.random() * SENTENCE_DATABASE.length);
+            } while (nextIndex === appState.currentIndex && SENTENCE_DATABASE.length > 1);
+            
+            appState.currentIndex = nextIndex;
+            loadQuestion();
+            showFeedback(true, "🎲 Nuova frase Minecraft caricata! Buona analisi.");
+        }
+
+        /* -------------------------------------------------------------------------
+           2. STATO DELL'APPLICAZIONE
+           ------------------------------------------------------------------------- */
+        let appState = {
+            currentMode: 'mining', // 'mining', 'crafting', 'fortress', 'sandbox'
+            currentIndex: 0,
+            xp: 0,
+            level: 1,
+            soundEnabled: true,
+            ttsEnabled: true,
+            ttsRate: 0.85,
+            userSplits: [],
+            userClassifications: [],
+            sandboxData: null
+        };
+
+        // Sintetizzatore Audio Tone.js
+        let synth;
+        function initAudio() {
+            try {
+                synth = new Tone.Synth().toDestination();
+                synth.volume.value = -6;
+            } catch(e) {
+                console.log("Audio non inizializzato");
+            }
+        }
+
+        function playSound(type) {
+            if (!appState.soundEnabled) return;
+            try {
+                if (!synth) initAudio();
+                const now = Tone.now();
+                if (type === 'click') {
+                    synth.triggerAttackRelease("C4", "8n", now);
+                } else if (type === 'correct') {
+                    synth.triggerAttackRelease("E5", "16n", now);
+                    synth.triggerAttackRelease("G5", "16n", now + 0.1);
+                    synth.triggerAttackRelease("C6", "8n", now + 0.2);
+                } else if (type === 'wrong') {
+                    synth.triggerAttackRelease("G2", "8n", now);
+                } else if (type === 'levelUp') {
+                    synth.triggerAttackRelease("C5", "16n", now);
+                    synth.triggerAttackRelease("E5", "16n", now + 0.1);
+                    synth.triggerAttackRelease("G5", "16n", now + 0.2);
+                    synth.triggerAttackRelease("C6", "4n", now + 0.3);
+                }
+            } catch(e) {
+                // Gestione sicurezza audio
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           3. SISTEMA DI SINTESI VOCALE (TEXT-TO-SPEECH)
+           ------------------------------------------------------------------------- */
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'it-IT';
+            utterance.rate = appState.ttsRate;
+            
+            const voices = window.speechSynthesis.getVoices();
+            const itVoice = voices.find(v => v.lang.includes('it'));
+            if (itVoice) utterance.voice = itVoice;
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function toggleSpeechAssist() {
+            appState.ttsEnabled = !appState.ttsEnabled;
+            const btn = document.getElementById('btn-tts-toggle');
+            const icon = document.getElementById('tts-icon');
+            if (appState.ttsEnabled) {
+                icon.innerText = "🔊";
+                btn.classList.replace('bg-stone-500', 'bg-mc-gold');
+                speakText("Assistente vocale attivo");
+            } else {
+                icon.innerText = "🔇";
+                btn.classList.replace('bg-mc-gold', 'bg-stone-500');
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function toggleAudioMute() {
+            appState.soundEnabled = !appState.soundEnabled;
+            document.getElementById('sound-icon').innerText = appState.soundEnabled ? "🎵" : "🔇";
+        }
+
+        /* -------------------------------------------------------------------------
+           4. NAVIGAZIONE E INIZIALIZZAZIONE MODALITÀ
+           ------------------------------------------------------------------------- */
+        function startMode(mode) {
+            playSound('click');
+            appState.currentMode = mode;
+            appState.currentIndex = Math.floor(Math.random() * SENTENCE_DATABASE.length);
+
+            document.getElementById('biome-select-screen').classList.add('hidden');
+            document.getElementById('game-workspace').classList.remove('hidden');
+
+            const badge = document.getElementById('current-mode-badge');
+            if (mode === 'mining') {
+                badge.innerText = "⛏️ MINIERA FRASI";
+                badge.className = "font-pixel text-xs text-white px-3 py-1 bg-mc-grass rounded border border-green-800";
+            } else if (mode === 'crafting') {
+                badge.innerText = "🛠️ CRAFTING PERIODI";
+                badge.className = "font-pixel text-xs text-black px-3 py-1 bg-mc-gold rounded border border-yellow-800";
+            } else if (mode === 'fortress') {
+                badge.innerText = "🏰 FORTEZZA SINTATTICA";
+                badge.className = "font-pixel text-xs text-black px-3 py-1 bg-mc-diamond rounded border border-cyan-800";
+            } else if (mode === 'sandbox') {
+                badge.innerText = "🎨 CREATIVA (SANDBOX)";
+                badge.className = "font-pixel text-xs text-white px-3 py-1 bg-mc-lapis rounded border border-blue-900";
+                setupSandboxMode();
+                return;
+            }
+
+            loadQuestion();
+        }
+
+        function returnToMenu() {
+            playSound('click');
+            window.speechSynthesis.cancel();
+            document.getElementById('biome-select-screen').classList.remove('hidden');
+            document.getElementById('game-workspace').classList.add('hidden');
+        }
+
+        function loadQuestion() {
+            const currentData = SENTENCE_DATABASE[appState.currentIndex];
+            document.getElementById('question-tracker').innerText = `Frase ${appState.currentIndex + 1}/${SENTENCE_DATABASE.length}`;
+            
+            hideFeedback();
+
+            const displayArea = document.getElementById('sentence-display-area');
+            displayArea.innerText = currentData.fullText;
+
+            document.getElementById('villager-hint-text').innerText = "Riconosci le diverse parti del periodo. Clicca sui pulsanti per completare la sfida!";
+
+            const zone = document.getElementById('interaction-zone');
+            zone.innerHTML = "";
+
+            if (appState.currentMode === 'mining') {
+                renderMiningMode(currentData);
+            } else if (appState.currentMode === 'crafting') {
+                renderCraftingMode(currentData);
+            } else if (appState.currentMode === 'fortress') {
+                renderFortressMode(currentData);
+            }
+
+            if (appState.ttsEnabled) {
+                speakText("Nuova frase: " + currentData.fullText);
+            }
+        }
+
+        function readCurrentSentence() {
+            const currentData = SENTENCE_DATABASE[appState.currentIndex];
+            const textToRead = currentData ? currentData.fullText : document.getElementById('sentence-display-area').innerText;
+            speakText(textToRead);
+        }
+
+        /* -------------------------------------------------------------------------
+           5. MODALITÀ 1: MINIERA (DIVISIONE FRASI)
+           ------------------------------------------------------------------------- */
+        function renderMiningMode(data) {
+            appState.userSplits = [];
+            const zone = document.getElementById('interaction-zone');
+
+            let html = `
+                <div class="space-y-4">
+                    <p class="text-sm font-bold text-stone-700">
+                        ⛏️ Click sulle parole dove vuoi posizionare il <strong>Blocco Separatore 🧱</strong> per dividere le proposizioni:
+                    </p>
+                    <div id="word-chips-container" class="flex flex-wrap gap-2 p-4 bg-stone-200 border-2 border-stone-400 rounded-lg min-h-[100px] items-center">
+            `;
+
+            const words = data.fullText.split(" ");
+            words.forEach((word, idx) => {
+                html += `
+                    <button onclick="toggleWordSplit(${idx})" id="word-btn-${idx}" class="px-3 py-2 bg-white hover:bg-stone-100 border-2 border-stone-700 rounded text-base font-medium shadow-sm transition-all flex items-center gap-1">
+                        <span>${word}</span>
+                        <span id="split-mark-${idx}" class="hidden text-xs bg-mc-redstone text-white px-1.5 py-0.5 rounded font-pixel">🧱 STACCO</span>
+                    </button>
+                `;
+            });
+
+            html += `
+                    </div>
+                    <div class="text-xs text-stone-600 bg-stone-200 p-2.5 rounded border border-stone-400">
+                        💡 <strong>Suggerimento per la miniera:</strong> Se la frase contiene un inciso (es. <em>"Steve, esplorando la caverna, ha trovato un diamante"</em>), posiziona il Blocco Separatore 🧱 <strong>prima e dopo</strong> l'inciso per staccare le 3 parti!
+                    </div>
+                </div>
+            `;
+
+            zone.innerHTML = html;
+        }
+
+        function toggleWordSplit(index) {
+            playSound('click');
+            const mark = document.getElementById(`split-mark-${index}`);
+            const btn = document.getElementById(`word-btn-${index}`);
+
+            const foundIdx = appState.userSplits.indexOf(index);
+            if (foundIdx > -1) {
+                appState.userSplits.splice(foundIdx, 1);
+                mark.classList.add('hidden');
+                btn.classList.remove('border-mc-redstone', 'bg-red-50');
+            } else {
+                appState.userSplits.push(index);
+                mark.classList.remove('hidden');
+                btn.classList.add('border-mc-redstone', 'bg-red-50');
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           6. MODALITÀ 2: BANCO DA CRAFTING (CLASSIFICAZIONE & RICOLLEGAMENTO)
+           ------------------------------------------------------------------------- */
+        function renderCraftingMode(data) {
+            appState.userClassifications = new Array(data.clauses.length).fill(null);
+            const zone = document.getElementById('interaction-zone');
+
+            let html = `
+                <div class="space-y-4">
+                    <p class="text-sm font-bold text-stone-700">
+                        🛠️ Assegna ad ogni blocco estratto la giusta tipologia di Proposizione.
+                        ${data.hasSplit ? '<br><span class="text-mc-dirt font-bold bg-yellow-200 px-2 py-0.5 rounded text-xs border border-yellow-500 inline-block mt-1">🔗 Frase con inciso: Ricollega le parti spezzate scegliendo per ciascuna il tipo corretto!</span>' : ''}
+                    </p>
+                    <div class="space-y-4">
+            `;
+
+            data.clauses.forEach((clause, idx) => {
+                const isSplitPart = clause.totalParts && clause.totalParts > 1;
+                const splitBadge = isSplitPart 
+                    ? `<span class="bg-amber-100 text-amber-900 border border-amber-500 text-xs px-2 py-0.5 rounded-full font-bold flex items-center gap-1">🔗 Parte ${clause.part} di ${clause.totalParts} (Spezzata)</span>` 
+                    : '';
+
+                html += `
+                    <div class="pixel-box bg-white p-4 rounded-lg space-y-3 ${isSplitPart ? 'border-l-8 border-mc-diamond bg-cyan-50/40' : ''}">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b pb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="font-pixel text-xs bg-stone-800 text-yellow-300 px-2 py-1 rounded">Blocco ${idx + 1}</span>
+                                <span class="text-base font-semibold text-stone-900">"${clause.text}"</span>
+                                <button onclick="speakText('${clause.text.replace(/'/g, "\\'")}')" class="text-xs bg-stone-200 p-1 rounded hover:bg-stone-300" title="Ascolta">🔊</button>
+                            </div>
+                            ${splitBadge}
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+                            <button onclick="selectCraftType(${idx}, 'principale', this)" class="craft-option-${idx} pixel-btn bg-stone-100 hover:bg-mc-diamond/30 p-3 rounded text-left border border-stone-400">
+                                <div class="font-bold text-xs text-stone-800">💎 Principale</div>
+                                <div class="text-[11px] text-stone-500">${isSplitPart ? 'Parte di proposizione principale' : 'Ha senso da sola'}</div>
+                            </button>
+                            
+                            <button onclick="selectCraftType(${idx}, 'coordinata', this)" class="craft-option-${idx} pixel-btn bg-stone-100 hover:bg-mc-gold/30 p-3 rounded text-left border border-stone-400">
+                                <div class="font-bold text-xs text-stone-800">🪙 Coordinata</div>
+                                <div class="text-[11px] text-stone-500">Sullo stesso piano</div>
+                            </button>
+
+                            <button onclick="selectCraftType(${idx}, 'subordinata', this)" class="craft-option-${idx} pixel-btn bg-stone-100 hover:bg-mc-emerald/30 p-3 rounded text-left border border-stone-400">
+                                <div class="font-bold text-xs text-stone-800">🟢 Subordinata</div>
+                                <div class="text-[11px] text-stone-500">Si inserisce o dipende dalle altre</div>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (data.hasSplit) {
+                html += `
+                    <div class="p-3 bg-yellow-100 border-2 border-yellow-500 rounded-lg text-xs text-yellow-900 space-y-1">
+                        <div class="font-bold text-sm flex items-center gap-1">🧩 Guida al Ricollegamento:</div>
+                        <p>Nelle frasi come <em>"Steve, esplorando la caverna, ha trovato un diamante"</em>, la Proposizione Principale è spezzata in due (<em>"Steve"</em> + <em>"ha trovato un diamante"</em>). Entrambi i pezzi appartengono alla <strong>💎 Principale</strong> e vanno contrassegnati come tali!</p>
+                    </div>
+                `;
+            }
+
+            html += `</div></div>`;
+            zone.innerHTML = html;
+        }
+
+        function selectCraftType(clauseIdx, type, btnElement) {
+            playSound('click');
+            appState.userClassifications[clauseIdx] = type;
+
+            const buttons = document.querySelectorAll(`.craft-option-${clauseIdx}`);
+            buttons.forEach(b => {
+                b.classList.remove('ring-4', 'ring-black', 'bg-mc-diamond', 'bg-mc-gold', 'bg-mc-emerald');
+                b.classList.add('bg-stone-100');
+            });
+
+            btnElement.classList.remove('bg-stone-100');
+            btnElement.classList.add('ring-4', 'ring-black');
+            if (type === 'principale') btnElement.classList.add('bg-mc-diamond');
+            if (type === 'coordinata') btnElement.classList.add('bg-mc-gold');
+            if (type === 'subordinata') btnElement.classList.add('bg-mc-emerald');
+        }
+
+        /* -------------------------------------------------------------------------
+           7. MODALITÀ 3: FORTEZZA SINTATTICA (DETTAGLI)
+           ------------------------------------------------------------------------- */
+        function renderFortressMode(data) {
+            appState.userClassifications = data.clauses.map(() => ({
+                kind: null,
+                form: null
+            }));
+
+            const zone = document.getElementById('interaction-zone');
+
+            let html = `
+                <div class="space-y-4">
+                    <p class="text-sm font-bold text-stone-700">
+                        🏰 Analisi Avanzata: Specifica la funzione logica e la forma di ciascuna proposizione.
+                    </p>
+                    <div class="space-y-4">
+            `;
+
+            data.clauses.forEach((clause, idx) => {
+                const isSplit = clause.totalParts && clause.totalParts > 1;
+                html += `
+                    <div class="pixel-box bg-white p-4 rounded-lg space-y-3 ${isSplit ? 'border-l-8 border-mc-diamond bg-cyan-50/40' : ''}">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b pb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="font-pixel text-xs bg-mc-woodDark text-yellow-300 px-2 py-1 rounded">Proposizione ${idx + 1}</span>
+                                <span class="text-base font-bold text-stone-900">"${clause.text}"</span>
+                            </div>
+                            ${isSplit ? `<span class="text-xs font-bold bg-amber-200 text-amber-900 px-2 py-0.5 rounded border border-amber-500">🔗 Parte ${clause.part} di ${clause.totalParts} (Spezzata)</span>` : ''}
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <div class="space-y-1">
+                                <label class="font-bold text-stone-700 block">Tipo di Proposizione:</label>
+                                <select onchange="updateFortressChoice(${idx}, 'kind', this.value)" class="w-full p-2 bg-stone-100 border-2 border-stone-800 rounded font-medium focus:bg-yellow-50">
+                                    <option value="">-- Seleziona Funzione --</option>
+                                    <option value="indipendente">Principale / Indipendente (anche se spezzata)</option>
+                                    <option value="copulativa">Coordinata</option>
+                                    <option value="causale">Subordinata Causale (Perché?)</option>
+                                    <option value="temporale">Subordinata Temporale / Inciso (Quando? / Mentre?)</option>
+                                    <option value="finale">Subordinata Finale (Per quale fine?)</option>
+                                    <option value="oggettiva">Subordinata Oggettiva (Che cosa? - Oggetto)</option>
+                                    <option value="soggettiva">Subordinata Soggettiva (Soggetto)</option>
+                                    <option value="relativa">Subordinata Relativa (Introdotta da "che/il quale")</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-1">
+                                <label class="font-bold text-stone-700 block">Forma (Modo del Verbo):</label>
+                                <select onchange="updateFortressChoice(${idx}, 'form', this.value)" class="w-full p-2 bg-stone-100 border-2 border-stone-800 rounded font-medium focus:bg-yellow-50">
+                                    <option value="">-- Seleziona Forma --</option>
+                                    <option value="esplicita">Esplicita (Verbo Finito: indicativo, congiuntivo...)</option>
+                                    <option value="implicita">Implicita (Verbo Indefinito: gerundio, infinito, participio)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div></div>`;
+            zone.innerHTML = html;
+        }
+
+        function updateFortressChoice(clauseIdx, field, value) {
+            playSound('click');
+            if (appState.userClassifications[clauseIdx]) {
+                appState.userClassifications[clauseIdx][field] = value;
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           8. MODALITÀ CREATIVA (SANDBOX)
+           ------------------------------------------------------------------------- */
+        function setupSandboxMode() {
+            document.getElementById('question-tracker').innerText = "Modalità Creativa";
+            hideFeedback();
+            
+            const displayArea = document.getElementById('sentence-display-area');
+            displayArea.innerHTML = `
+                <div class="space-y-3">
+                    <label class="block text-xs font-pixel text-stone-700">SCRIVI LA TUA FRASE COMPLESSA:</label>
+                    <textarea id="sandbox-input" rows="2" class="w-full p-3 border-2 border-stone-800 rounded text-base font-medium focus:ring-2 focus:ring-mc-diamond" placeholder="Es. Steve, mentre raccoglie il legno, osserva il tramonto."></textarea>
+                    <button onclick="processSandboxSentence()" class="pixel-btn bg-mc-lapis text-white text-xs font-pixel px-4 py-2 rounded">
+                        🚀 CARICA FRASE IN MINIERA
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('interaction-zone').innerHTML = `
+                <div class="p-6 text-center text-stone-500 italic">
+                    Inserisci una frase qui sopra e premi "Carica Frase" per iniziare l'analisi guidata!
+                </div>
+            `;
+        }
+
+        function processSandboxSentence() {
+            const text = document.getElementById('sandbox-input').value.trim();
+            if (!text) {
+                showFeedback(false, "Inserisci prima una frase nel riquadro!");
+                return;
+            }
+
+            playSound('correct');
+            const splitPattern = /(?=\b(perché|poiché|mentre|quando|sebbene|se|affinché|che|ed|ma|pero|per|con)\b)|(?<=[,;:])/gi;
+            const rawParts = text.split(splitPattern).filter(p => p && p.trim().length > 1 && !/^(perché|poiché|mentre|quando|sebbene|se|affinché|che|ed|ma|pero|per|con)$/i.test(p));
+
+            appState.sandboxData = {
+                fullText: text,
+                clauses: rawParts.map((p, idx) => ({
+                    text: p.trim(),
+                    type: idx === 0 ? 'principale' : 'subordinata',
+                    typeName: idx === 0 ? 'Proposizione Principale' : 'Proposizione Subordinata'
+                }))
+            };
+
+            renderCraftingMode(appState.sandboxData);
+            document.getElementById('sentence-display-area').innerText = text;
+            showFeedback(true, "Frase caricata con successo! Ora assegna il tipo a ogni proposizione.");
+        }
+
+        /* -------------------------------------------------------------------------
+           9. VERIFICA E CONTROLLO RISPOSTE
+           ------------------------------------------------------------------------- */
+        function checkCurrentStep() {
+            const data = appState.sandboxData || SENTENCE_DATABASE[appState.currentIndex];
+
+            if (appState.currentMode === 'mining') {
+                checkMiningStep(data);
+            } else if (appState.currentMode === 'crafting') {
+                checkCraftingStep(data);
+            } else if (appState.currentMode === 'fortress') {
+                checkFortressStep(data);
+            } else if (appState.currentMode === 'sandbox') {
+                checkCraftingStep(data);
+            }
+        }
+
+        function checkMiningStep(data) {
+            if (appState.userSplits.length === 0) {
+                showFeedback(false, "Metti almeno un Blocco Separatore 🧱 fra le proposizioni!");
+                playSound('wrong');
+                return;
+            }
+
+            const expectedSplits = data.clauses.length - 1;
+            if (Math.abs(appState.userSplits.length - expectedSplits) <= 1) {
+                playSound('correct');
+                addXP(50);
+                showFeedback(true, "Ottimo lavoro da minatore! Hai individuato correttamente i punti di stacco del periodo. Passa al prossimo livello!");
+                triggerAchievement("⛏️ SPELEOLOGO FRASI", "Hai estratto le proposizioni con successo!");
+            } else {
+                playSound('wrong');
+                showFeedback(false, `Ci sei quasi! Questo periodo contiene ${data.clauses.length} proposizioni. Servono circa ${expectedSplits} stacchi.`);
+            }
+        }
+
+        function checkCraftingStep(data) {
+            const choices = appState.userClassifications;
+            if (choices.includes(null) || choices.length < data.clauses.length) {
+                showFeedback(false, "Classifica tutte le proposizioni prima di verificare il crafting!");
+                playSound('wrong');
+                return;
+            }
+
+            let correct = true;
+            choices.forEach((choice, idx) => {
+                if (choice !== data.clauses[idx].type) {
+                    correct = false;
+                }
+            });
+
+            if (correct) {
+                playSound('correct');
+                addXP(100);
+                const splitMsg = data.hasSplit ? " Grandioso! Hai ricollegato con successo il soggetto e il predicato della principale spezzata!" : "";
+                showFeedback(true, `CRAFTING PERFETTO! 💎 Hai classificato tutte le proposizioni senza errori!${splitMsg}`);
+                triggerAchievement("🛠️ CRAFTER ESPERTO", "Periodo con ricollegamenti completato!");
+                
+                setTimeout(() => {
+                    if (appState.currentIndex < SENTENCE_DATABASE.length - 1) {
+                        appState.currentIndex++;
+                        loadQuestion();
+                    } else {
+                        showFeedback(true, "🏆 COMPLIMENTI! Hai completato tutte le frasi della miniera!");
+                    }
+                }, 2800);
+            } else {
+                playSound('wrong');
+                showFeedback(false, "Qualche blocco non è al posto giusto. Ricorda: l'inciso separa il soggetto dal predicato, ma entrambi fanno parte della Proposizione Principale!");
+            }
+        }
+
+        function checkFortressStep(data) {
+            const choices = appState.userClassifications;
+            let allFilled = true;
+            let correct = true;
+
+            choices.forEach((c, idx) => {
+                if (!c.kind || !c.form) allFilled = false;
+                if (c.kind !== data.clauses[idx].kind || c.form !== data.clauses[idx].form) {
+                    correct = false;
+                }
+            });
+
+            if (!allFilled) {
+                showFeedback(false, "Compila tutti i menu a tendina della Fortezza per proseguire!");
+                playSound('wrong');
+                return;
+            }
+
+            if (correct) {
+                playSound('correct');
+                addXP(150);
+                showFeedback(true, "FORTEZZA CONQUISTATA! 🏰 Analisi sintattica avanzata impeccabile!");
+                triggerAchievement("🏰 LEGGENDA DEL SINTATTICO", "Analisi dettagliata completata!");
+            } else {
+                playSound('wrong');
+                showFeedback(false, "Rivedi le funzioni logiche. Chiedi un aiuto al Villager se serve!");
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           10. SUGGERIMENTI E FEEDBACK VISIVI
+           ------------------------------------------------------------------------- */
+        function provideHint() {
+            playSound('click');
+            const data = SENTENCE_DATABASE[appState.currentIndex];
+            const hintText = data ? (data.hintStructure || data.hintVerb) : "Trova prima la proposizione principale che regge il senso di tutta la frase.";
+            
+            document.getElementById('villager-hint-text').innerText = hintText;
+            speakText("Suggerimento del Villager: " + hintText);
+
+            const box = document.getElementById('villager-hint-box');
+            box.classList.add('glow-active');
+            setTimeout(() => box.classList.remove('glow-active'), 2000);
+        }
+
+        function showFeedback(isSuccess, text) {
+            const box = document.getElementById('feedback-box');
+            const icon = document.getElementById('feedback-icon');
+            const txt = document.getElementById('feedback-text');
+
+            box.classList.remove('hidden', 'bg-green-100', 'border-green-600', 'text-green-900', 'bg-red-100', 'border-red-600', 'text-red-900');
+
+            if (isSuccess) {
+                box.classList.add('bg-green-100', 'border-green-600', 'text-green-900');
+                icon.innerText = "🎉";
+            } else {
+                box.classList.add('bg-red-100', 'border-red-600', 'text-red-900');
+                icon.innerText = "⚠️";
+            }
+
+            txt.innerText = text;
+            if (appState.ttsEnabled) speakText(text);
+        }
+
+        function hideFeedback() {
+            document.getElementById('feedback-box').classList.add('hidden');
+        }
+
+        /* -------------------------------------------------------------------------
+           11. GAMIFICATION (XP / LIVELLI / OBIETTIVI)
+           ------------------------------------------------------------------------- */
+        function addXP(amount) {
+            appState.xp += amount;
+            if (appState.xp >= appState.level * 200) {
+                appState.level++;
+                playSound('levelUp');
+                triggerAchievement("🎉 LIVELLO AUMENTATO!", `Sei diventato Livello ${appState.level}!`);
+            }
+            updateXPUI();
+        }
+
+        function updateXPUI() {
+            document.getElementById('level-num').innerText = appState.level;
+            document.getElementById('xp-text').innerText = `${appState.xp} XP`;
+            const maxXP = appState.level * 200;
+            const pct = Math.min(100, Math.floor((appState.xp / maxXP) * 100));
+            document.getElementById('xp-bar').style.width = `${pct}%`;
+        }
+
+        function triggerAchievement(title, desc) {
+            const popup = document.getElementById('achievement-popup');
+            document.getElementById('ach-title').innerText = title;
+            document.getElementById('ach-desc').innerText = desc;
+
+            popup.classList.remove('translate-y-32');
+            setTimeout(() => {
+                popup.classList.add('translate-y-32');
+            }, 4000);
+        }
+
+        /* -------------------------------------------------------------------------
+           12. MODALE OPZIONI ED ACCESSIBILITÀ
+           ------------------------------------------------------------------------- */
+        function openAccessibilityModal() {
+            playSound('click');
+            document.getElementById('accessibility-modal').classList.remove('hidden');
+        }
+
+        function closeAccessibilityModal() {
+            playSound('click');
+            document.getElementById('accessibility-modal').classList.add('hidden');
+        }
+
+        function changeFontFamily(type) {
+            playSound('click');
+            document.body.classList.remove('font-dyslexic-mode', 'font-accessible-mode', 'font-pixel-mode');
+            if (type === 'dyslexic') document.body.classList.add('font-dyslexic-mode');
+            if (type === 'accessible') document.body.classList.add('font-accessible-mode');
+            if (type === 'pixel') document.body.classList.add('font-pixel-mode');
+        }
+
+        function updateFontSize(val) {
+            document.documentElement.style.setProperty('--base-font-size', val + 'px');
+            document.getElementById('font-size-val').innerText = val + 'px';
+        }
+
+        function setSpacing(level) {
+            playSound('click');
+            if (level === 'normal') {
+                document.documentElement.style.setProperty('--base-line-height', '1.5');
+                document.documentElement.style.setProperty('--base-letter-spacing', '0em');
+                document.documentElement.style.setProperty('--word-spacing', '0em');
+                document.getElementById('line-height-val').innerText = "Normale";
+            } else if (level === 'wide') {
+                document.documentElement.style.setProperty('--base-line-height', '1.8');
+                document.documentElement.style.setProperty('--base-letter-spacing', '0.04em');
+                document.documentElement.style.setProperty('--word-spacing', '0.1em');
+                document.getElementById('line-height-val').innerText = "Ampia";
+            } else if (level === 'extra') {
+                document.documentElement.style.setProperty('--base-line-height', '2.2');
+                document.documentElement.style.setProperty('--base-letter-spacing', '0.08em');
+                document.documentElement.style.setProperty('--word-spacing', '0.18em');
+                document.getElementById('line-height-val').innerText = "Molto Spaziata";
+            }
+        }
+
+        function updateTTSRate(val) {
+            appState.ttsRate = parseFloat(val);
+        }
+
+        function setTheme(theme) {
+            playSound('click');
+            if (theme === 'high-contrast') {
+                document.body.classList.add('theme-high-contrast');
+            } else {
+                document.body.classList.remove('theme-high-contrast');
+            }
+        }
+
+        /* Inizializzazione al caricamento della pagina */
+        window.onload = function() {
+            updateXPUI();
+        };
+    </script>
+</body>
+</html>
